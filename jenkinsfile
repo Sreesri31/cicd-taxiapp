@@ -1,4 +1,4 @@
-def registry ="https://taxi31.jfrog.io/"
+def registry = 'https://taxi31.jfrog.io/'
 def imageName = 'taxi31.jfrog.io/taxi-docker-local/taxiapp'
 def version   = '1.0.1'
 pipeline {
@@ -47,13 +47,13 @@ pipeline {
         steps {
             script {
                     echo '<--------------- Jar Publish Started --------------->'
-                     def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"jfrog-cred"
+                     def server = Artifactory.newServer url:registry+"/artifactory",credentialsId:"jfrog-cred"
                      def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
                      def uploadSpec = """{
                           "files": [
                             {
-                              "pattern": "/home/ubuntu/jenkins/workspace/taxi_booking/taxi_booking/target/(*)",
-                              "target": "taxi-libs-release-local/{1}",
+                              "pattern": "/home/ubuntu/jenkins/workspace/taxi-booking/taxi-booking/target/(*)",
+                              "target": "taxivalaxy-libs-release/{1}",
                               "flat": "false",
                               "props" : "${properties}",
                               "exclusions": [ "*.sha1", "*.md5"]
