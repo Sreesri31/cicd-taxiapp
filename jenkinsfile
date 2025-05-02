@@ -87,7 +87,28 @@ pipeline {
             }
         }
     }
-
-
+    stage("Jar Publish") {
+        steps {
+            script {
+                echo "Jar Publish Started"
+                def server = Artifactory.server "jfrog-cred"
+                def props = "buildId=${env.BUILD_ID};commitId=${env.GIT_COMMIT}"
+                def uploadSpec = """{
+                "files": [
+                 {
+                  "pattern": "target/*.jar",
+                  "target": "taxi-libs-release-local/",
+                  "flat": "true",
+                  "props": "${props}"
+                  }
+                  ]
+            }"""
+              def buildInfo = server.upload spec: uploadSpec
+              echo "→ Deployed artifacts: ${buildInfo.deployedArtifacts*.toString()}"
+              server.publishBuildInfo buildInfo
+              echo "Jar Publish Completed"
+              }
+        }
+    }
     }
 }
