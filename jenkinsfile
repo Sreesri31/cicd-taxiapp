@@ -54,7 +54,7 @@ pipeline {
                             {
                               "pattern": "/home/ubuntu/jenkins/workspace/taxi-booking/taxi-booking/target/(*)",
                               "target": "taxi-libs-release-local/{1}",
-                              "flat": "true",
+                              "flat": "false",
                               "props" : "${properties}",
                               "exclusions": [ "*.sha1", "*.md5"]
                             }
