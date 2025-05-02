@@ -43,30 +43,59 @@ pipeline {
                 echo "----------- SonarQube Analysis Completed ----------"
             }
         }
-        stage("Jar Publish") {
-        steps {
-            script {
-                    echo '<--------------- Jar Publish Started --------------->'
-                     def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"jfrog-cred"
-                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
-                     def uploadSpec = """{
-                          "files": [
-                            {
-                              "pattern": "/home/ubuntu/jenkins/workspace/taxi-booking/taxi-booking/target/(*)",
-                              "target": "taxi-libs-release-local/{1}",
-                              "flat": "false",
-                              "props" : "${properties}",
-                              "exclusions": [ "*.sha1", "*.md5"]
-                            }
-                         ]
-                     }"""
-                     def buildInfo = server.upload(uploadSpec)
-                     buildInfo.env.collect()
-                     server.publishBuildInfo(buildInfo)
-                     echo '<--------------- Jar Publish Ended --------------->'  
-             }
-        }   
+    //     stage("Jar Publish") {
+    //     steps {
+    //         script {
+    //                 echo '<--------------- Jar Publish Started --------------->'
+    //                  def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"jfrog-cred"
+    //                  def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
+    //                  def uploadSpec = """{
+    //                       "files": [
+    //                         {
+    //                           "pattern": "/home/ubuntu/jenkins/workspace/taxi-booking/taxi-booking/target/(*)",
+    //                           "target": "taxi-libs-release-local/{1}",
+    //                           "flat": "false",
+    //                           "props" : "${properties}",
+    //                           "exclusions": [ "*.sha1", "*.md5"]
+    //                         }
+    //                      ]
+    //                  }"""
+    //                  def buildInfo = server.upload(uploadSpec)
+    //                  buildInfo.env.collect()
+    //                  server.publishBuildInfo(buildInfo)
+    //                  echo '<--------------- Jar Publish Ended --------------->'  
+    //          }
+    //     }   
+    // }
+    stage("Jar Publish") {
+  steps {
+    script {
+      echo "⏳ Jar Publish Started"
+      // 1) Get the server from your global config by its Server ID:
+      def server = Artifactory.server "jfrog-cred"
+      // 2) Build properties
+      def props = "buildId=${env.BUILD_ID};commitId=${env.GIT_COMMIT}"
+      // 3) Upload spec—relative to the workspace:
+      def uploadSpec = """{
+        "files": [
+          {
+            "pattern": "target/*.jar",
+            "target": "taxi-libs-release-local/",
+            "flat": "true",
+            "props": "${props}"
+          }
+        ]
+      }"""
+      // 4) Do the upload
+      def buildInfo = server.upload spec: uploadSpec
+      // 5) (Optional) Inspect what got uploaded
+      echo "→ Deployed artifacts: ${buildInfo.deployedArtifacts*.toString()}"
+      // 6) Publish build-info for metadata
+      server.publishBuildInfo buildInfo
+      echo "✅ Jar Publish Completed"
     }
+  }
+}
     stage(" Docker Build ") {
       steps {
         script {
