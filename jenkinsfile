@@ -70,7 +70,7 @@ pipeline {
     stage("Jar Publish") {
   steps {
     script {
-      echo "⏳ Jar Publish Started"
+      echo "Jar Publish Started"
       // 1) Get the server from your global config by its Server ID:
       def server = Artifactory.server "jfrog-cred"
       // 2) Build properties
@@ -86,6 +86,7 @@ pipeline {
           }
         ]
       }"""
+       echo "Jar Publish Startedhgs"
       // 4) Do the upload
       def buildInfo = server.upload spec: uploadSpec
       // 5) (Optional) Inspect what got uploaded
