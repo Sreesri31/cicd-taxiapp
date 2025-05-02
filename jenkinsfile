@@ -52,9 +52,9 @@ pipeline {
                      def uploadSpec = """{
                           "files": [
                             {
-                              "pattern": "target/*.jar",
-                              "target": "taxi-libs-release-local/{1}",
-                              "flat": "true",
+                              "pattern": "/home/ubuntu/jenkins/workspace/taxi-booking/taxi-booking/target/(*)",
+                              "target": "taxivalaxy-libs-release/{1}",
+                              "flat": "false",
                               "props" : "${properties}",
                               "exclusions": [ "*.sha1", "*.md5"]
                             }
