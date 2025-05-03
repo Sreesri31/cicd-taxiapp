@@ -106,3 +106,21 @@ resource "aws_security_group" "demo-sg" {
 
   }
 }
+ module "sgs" {
+  source = "../sg_eks"
+  vpc_id = data.aws_vpc.default.id
+}
+
+# EKS Cluster Module
+module "eks" {
+  source     = "../eks"
+  vpc_id     = data.aws_vpc.default.id
+  subnet_ids = data.aws_subnets.default.ids
+  sg_ids     = module.sgs.security_group_public
+}
+
+
+output "eks_cluster_endpoint" {
+  value = module.eks.endpoint
+}
+
