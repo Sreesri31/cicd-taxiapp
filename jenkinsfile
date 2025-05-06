@@ -80,8 +80,8 @@ environment {
                 docker.withRegistry(registry, 'jfrog-cred'){
                     app.push()
                 }    
-               echo '<--------------- Docker Publish Ended , completed ---------------------------->'  
+               echo '<--------------- Docker Publish Ended --------------->'  
             }
-    
-}
+        }
+    }
 }
