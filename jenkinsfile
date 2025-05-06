@@ -82,11 +82,6 @@ environment {
                 }    
                echo '<--------------- Docker Publish Ended , completed ---------------------------->'  
             }
-        }
-    }
-<<<<<<< HEAD
-
-
-
+    
 }
 }
