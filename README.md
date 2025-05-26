@@ -98,59 +98,13 @@ Infrastructure as Code	Terraform
 Cloud Platform	AWS (EKS, VPC, IAM, etc.)
 Kubernetes Package Manager	Helm
 Monitoring	Prometheus, Grafana
-+-----------------------+
-|   Developer           |
-| - Code Push to GitHub |
-+----------+------------+
-           |
-           v
-+-----------------------+
-|   GitHub Repository   |
-+----------+------------+
-           |
-           v
-+-----------------------------+
-|   Jenkins CI/CD Pipeline    |
-|-----------------------------|
-| 1. Checkout Code            |
-| 2. Build & Unit Tests       |
-| 3. SonarCloud Code Analysis |
-| 4. Package Jar Artifact     |
-| 5. Publish Jar to JFrog     |
-| 6. Docker Build & Publish   |
-| 7. Deploy to Kubernetes     |
-+-----------------------------+
-           |
-           v
-+-----------------------+             +---------------------+
-|  JFrog Artifactory    |<------------|   Jenkins            |
-| - Maven Artifacts     |             | - Artifactory Plugin |
-| - Docker Registry     |             +---------------------+
-+-----------------------+
-           |
-           v
-+-------------------------+
-| Kubernetes EKS Cluster  |
-| - Deployed Taxi App     |
-| - Managed via Helm      |
-+-------------------------+
-           |
-           v
-+-----------------------+
-| Monitoring & Alerts   |
-| - Prometheus          |
-| - Grafana             |
-| - Running on EKS      |
-+-----------------------+
-           |
-           v
-+-----------------------+
-| Terraform Infrastructure |
-| - AWS EKS Cluster       |
-| - Security Groups       |
-| - Networking (VPC/Subnets)|
-+-----------------------+
 
+
+
+The project roadmap:
+
+
+![cicdarc](https://github.com/user-attachments/assets/e7df04e9-0754-4ea2-b044-a3f5711165da)
 
 Additional Notes
 Make sure to add Jenkins credentials for SonarCloud and JFrog tokens
